@@ -70,8 +70,11 @@ class BirthdayUpdateView(OnlyAuthorMixin, UpdateView):
 class BirthdayListView(ListView):
     """Класс, отвечающий за количество объектов в списке на странице"""
     model = Birthday
+    queryset = Birthday.objects.prefetch_related(
+        'tags'
+    ).select_related('author')
     ordering = 'id'
-    paginate_by = 3
+    paginate_by = 10
 
 
 class BirthdayDeleteView(OnlyAuthorMixin, DeleteView):
